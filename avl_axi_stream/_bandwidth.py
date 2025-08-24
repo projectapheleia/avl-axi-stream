@@ -47,7 +47,7 @@ class Bandwidth(avl.Component):
                 if self.item.get("tvalid"):
                     tstrb = self.item.get("tstrb", None)
                     if tstrb is not None:
-                        incr = bin(pstrb).count("1")
+                        incr = bin(tstrb).count("1")
                 self.bandwidth[t] += incr
 
         cocotb.start_soon(counter())

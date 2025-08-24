@@ -3,11 +3,10 @@
 # Description:
 # Apheleia Verification Library Transmitter Sequence
 
+import math
 import random
 
 import avl
-from z3 import And
-import math
 
 from ._item import SequenceItem
 
@@ -103,9 +102,9 @@ class PacketSequence(TransSequence):
                 else:
                     if hasattr(item, "tkeep"):
                         if i == (transactions_in_packet - 1) and last_bytes != 0:
-                            item.add_constraint("_c_tkeep", lambda x: x == last_bytes, item.tkeep)
+                            item.add_constraint("_c_tkeep", lambda x, y=last_bytes: x == y, item.tkeep)
                         else:
-                            item.add_constraint("_c_tkeep", lambda x: x == all_bytes, item.tkeep)
+                            item.add_constraint("_c_tkeep", lambda x, y=all_bytes: x == y, item.tkeep)
 
                     if hasattr(item, "tlast"):
                         if i == (transactions_in_packet - 1):
@@ -115,9 +114,9 @@ class PacketSequence(TransSequence):
 
                     if hasattr(item, "tstrb"):
                         if i == (transactions_in_packet - 1) and last_bytes != 0:
-                           item.add_constraint("_c_tstrb", lambda x: x == last_bytes, item.tstrb)
+                           item.add_constraint("_c_tstrb", lambda x, y=last_bytes: x == y, item.tstrb)
                         else:
-                            item.add_constraint("_c_tstrb", lambda x: x == all_bytes, item.tstrb)
+                            item.add_constraint("_c_tstrb", lambda x, y=all_bytes: x == y, item.tstrb)
 
                     if hasattr(item, "goto_sleep"):
                         if i == (transactions_in_packet - 1):
@@ -131,4 +130,4 @@ class PacketSequence(TransSequence):
                 if bool(item.get("tkeep", 1)):
                     i += 1
 
-__all__ = ["ReqSequence", "PacketSequence"]
+__all__ = ["TransSequence", "PacketSequence"]

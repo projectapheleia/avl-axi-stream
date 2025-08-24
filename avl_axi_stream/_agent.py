@@ -9,10 +9,10 @@ from cocotb.triggers import NextTimeStep, RisingEdge
 
 from ._agent_cfg import AgentCfg
 from ._bandwidth import Bandwidth
-from ._rdriver import RecDriver
 from ._coverage import Coverage
 from ._interface import Interface
 from ._monitor import Monitor
+from ._rdriver import RecDriver
 from ._tdriver import TransDriver
 from ._tsequence import TransSequence
 

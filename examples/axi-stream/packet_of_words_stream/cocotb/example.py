@@ -4,10 +4,12 @@
 # Apheleia attributes example
 
 
+import random
+
 import avl
 import avl_axi_stream
 import cocotb
-import random
+
 
 class example_env(avl.Env):
 

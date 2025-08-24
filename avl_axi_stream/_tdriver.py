@@ -7,7 +7,7 @@ import random
 
 import avl
 import cocotb
-from cocotb.triggers import First, NextTimeStep, RisingEdge, Timer
+from cocotb.triggers import First, NextTimeStep, RisingEdge
 
 from ._driver import Driver
 from ._item import SequenceItem

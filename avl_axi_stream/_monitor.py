@@ -5,7 +5,7 @@
 
 import avl
 import cocotb
-from cocotb.triggers import FallingEdge, First, ReadOnly, RisingEdge
+from cocotb.triggers import FallingEdge, First, RisingEdge
 from cocotb.utils import get_sim_time
 
 from ._item import SequenceItem

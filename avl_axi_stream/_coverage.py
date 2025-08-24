@@ -7,6 +7,7 @@ import avl
 
 from ._item import SequenceItem
 
+
 class Coverage(avl.Component):
 
     def __init__(self, name: str, parent: avl.Component) -> None:
