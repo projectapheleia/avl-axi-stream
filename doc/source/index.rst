@@ -12,6 +12,10 @@ Apheleia Verification Library - AMBA AXI Steam Documentation
 
    introduction/introduction
    quickstart/quickstart
+   protocol/protocol
+   configuration/configuration
+   components/agent
+   waveforms/waveforms
    modules/all_modules
 
 
