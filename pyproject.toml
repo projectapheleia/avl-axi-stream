@@ -1,6 +1,6 @@
 [project]
 name = "avl-axi-stream"
-version = "0.1.0"
+version = "0.2.0"
 description = "Apheleia Verification Library - AMBA AXI Stream verification component."
 authors = [{name = "avl", email = "avl@projectapheleia.net"}]
 maintainers = [{name = "avl", email = "avl@projectapheleia.net"}]
@@ -14,7 +14,7 @@ classifiers = [
 ]
 dependencies = [
     "matplotlib>=3.10.0",
-    "avl-core>=0.2.1",
+    "avl-core>=0.3.0",
 ]
 
 [project.optional-dependencies]

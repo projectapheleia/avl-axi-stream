@@ -3,6 +3,8 @@
 # Description:
 # Apheleia Verification Library Monitor
 
+import asyncio
+
 import avl
 import cocotb
 from cocotb.triggers import FallingEdge, First, RisingEdge
@@ -56,7 +58,9 @@ class Monitor(avl.Monitor):
             # Send to export
             self.item_export.write(item)
 
-        except BaseException:
+        except asyncio.CancelledError:
+            raise
+        except Exception:
             self.debug(f"Drive task for item {item} was cancelled by reset")
             item.set_event("done")
 
@@ -78,7 +82,9 @@ class Monitor(avl.Monitor):
             try:
                 await FallingEdge(self.i_f.aresetn)
                 await self.reset()
-            except BaseException:
+            except asyncio.CancelledError:
+                raise
+            except Exception:
                 pass
 
         # Start Wakeup Monitor
@@ -97,6 +103,6 @@ class Monitor(avl.Monitor):
             await First(monitor_task, reset_task)
             for t in [monitor_task, reset_task]:
                 if not t.done():
-                    t.kill()
+                    t.cancel()
 
 __all__ = ["Monitor"]
