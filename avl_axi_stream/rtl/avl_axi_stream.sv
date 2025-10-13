@@ -66,6 +66,6 @@ interface axi_stream_if #(parameter string CLASSIFICATION      = "AXI-STREAM",
 
     endgenerate
 
-endinterface : AXI_STREAM_if
+endinterface
 
 `undef AVL_AXI_STREAM_IMPL_CHECK

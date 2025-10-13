@@ -7,6 +7,21 @@ from typing import Any
 
 from cocotb.handle import HierarchyObject
 
+parameters = [
+    "CLASSIFICATION",
+    "VERSION",
+    "TDATA_WIDTH",
+    "TID_WIDTH",
+    "TDEST_WIDTH",
+    "TUSER_WIDTH",
+    "Tready_Signal",
+    "Tstrb_Signal",
+    "Tkeep_Signal",
+    "Tlast_Signal",
+    "Wakeup_Signal",
+    "TSTRB_WIDTH",
+    "TKEEP_WIDTH",
+]
 
 class Interface:
     def __init__(self, hdl : HierarchyObject) -> None:
@@ -14,15 +29,19 @@ class Interface:
         Create an interface
         Work around simulator specific issues with accessing signals inside generates.
         """
-        # Parameters and Signals
-        for child in list(hdl):
-            # Parameters start with a capital letter
-            if child._name[0].isupper():
-                if isinstance(child.value, bytes):
-                    setattr(self, child._name, str(child.value.decode("utf-8")))
-                else:
-                    setattr(self, child._name, int(child.value))
+        # Parameters
+        for p in parameters:
+            # Parameters not exposed by list() in some simulators - look up explicitly
+            v = getattr(hdl, p)
+            if isinstance(v.value, bytes):
+                setattr(self, p, str(v.value.decode("utf-8")))
             else:
+                setattr(self, p, int(v.value))
+
+        # Signals
+        for child in list(hdl):
+            # Signals start with a lowercase letter
+            if not child._name[0].isupper():
                 setattr(self, child._name, child)
 
         if self.CLASSIFICATION != "AXI-STREAM":
