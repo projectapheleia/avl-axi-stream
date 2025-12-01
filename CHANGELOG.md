@@ -1,9 +1,15 @@
-#[v0.3.0] - 2025-10-13
+# Changelog
+
+[v0.3.1] - 2025-12-01
+
+### Fixed
+ - [#3](https://github.com/projectapheleia/avl-axi-stream/issues/3) Issue in Monitor class
+
+[v0.3.0] - 2025-10-13
 
 ### Fixed
  - [#2](https://github.com/projectapheleia/avl-axi-stream/issues/2) Modelsim does not support detecting parameters through VPI
 
-# Changelog
 [v0.2.0] - 2025-09-27
 
 ### Added

@@ -94,7 +94,7 @@ class Monitor(avl.Monitor):
         while True:
             await RisingEdge(self.i_f.aclk)
 
-            if self.i_f.aresetn == 0 or self.i_f.tvalid == 0 or self.i_f.get("twakeup", 1) == 0:
+            if self.i_f.get("aresetn", default=1) == 0 or self.i_f.get("tvalid", default=1) == 0 or self.i_f.get("twakeup", 1) == 0:
                 continue
 
             monitor_task = cocotb.start_soon(self.monitor())
