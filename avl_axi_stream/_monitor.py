@@ -39,14 +39,20 @@ class Monitor(avl.Monitor):
             item = SequenceItem(f"from_{self.name}", self)
             item.wait_cycles = 0
             item.time_since_wakeup = get_sim_time("ns") - self.wakeup
-
-            item.set("tdata", self.i_f.get("tdata"))
-            item.set("tstrb" , self.i_f.get("tstrb"))
-            item.set("tkeep", self.i_f.get("tkeep"))
-            item.set("tlast", self.i_f.get("tlast"))
-            item.set("tid", self.i_f.get("tid"))
-            item.set("tdest", self.i_f.get("tdest"))
-            item.set("tuser", self.i_f.get("tuser"))
+            if hasattr(self.i_f, "tdata"):
+                item.set("tdata", int(self.i_f.get("tdata")))
+            if hasattr(self.i_f, "tstrb"):
+                item.set("tstrb" , int(self.i_f.get("tstrb")))
+            if hasattr(self.i_f, "tkeep"):
+                item.set("tkeep", int(self.i_f.get("tkeep")))
+            if hasattr(self.i_f, "tlast"):
+                item.set("tlast", int(self.i_f.get("tlast")))
+            if hasattr(self.i_f, "tid"):
+                item.set("tid", int(self.i_f.get("tid")))
+            if hasattr(self.i_f, "tdest"):
+                item.set("tdest", int(self.i_f.get("tdest")))
+            if hasattr(self.i_f, "tuser"):
+                item.set("tuser", int(self.i_f.get("tuser")))
 
             while True:
                 if bool(self.i_f.get("tready", 1)):
