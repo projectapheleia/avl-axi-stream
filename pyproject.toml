@@ -1,6 +1,6 @@
 [project]
 name = "avl-axi-stream"
-version = "0.3.1"
+version = "0.3.2"
 description = "Apheleia Verification Library - AMBA AXI Stream verification component."
 authors = [{name = "avl", email = "avl@projectapheleia.net"}]
 maintainers = [{name = "avl", email = "avl@projectapheleia.net"}]

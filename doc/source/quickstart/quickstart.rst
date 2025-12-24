@@ -42,7 +42,7 @@ If you want to install a specific version, you can specify the version number:
 
 .. code-block:: bash
 
-    pip install avl-axi-stream==0.3.1
+    pip install avl-axi-stream==0.3.2
 
 Installing From Source
 ----------------------
