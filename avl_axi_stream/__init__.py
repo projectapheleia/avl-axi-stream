@@ -9,7 +9,7 @@ from ._tdriver import TransDriver
 from ._tsequence import PacketSequence, TransSequence
 
 # Add version
-__version__: str = "0.3.2"
+__version__: str = "0.4.0"
 
 __all__ = [
     "Agent",

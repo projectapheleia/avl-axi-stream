@@ -1,5 +1,6 @@
 # Changelog
 
+## [v0.4.0] - 2026-02-16
 ### Added
  - Simpler write / write_stream API for sequences
 

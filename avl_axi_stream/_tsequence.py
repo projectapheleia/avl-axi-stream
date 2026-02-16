@@ -75,21 +75,6 @@ class TransSequence(avl.Sequence):
         :type randomize: bool
         :return: List of sequence items that were sent
         :rtype: list[SequenceItem]
-
-        Example:
-            # Simple data stream
-            await seq.write_stream([0x10, 0x20, 0x30, 0x40])
-
-            # Stream with explicit field values
-            await seq.write_stream([
-                {'tdata': 0x1234, 'tkeep': 0xF},
-                {'tdata': 0x5678, 'tkeep': 0xF},
-                {'tdata': 0xABCD, 'tkeep': 0x3}
-            ])
-
-            # separate case for a simplified stream (just tdata):
-            await seq.write_stream([0x1234, 0x5678, 0xF, 0xABCD, 0x3])
-
         """
         items = []
 
