@@ -111,9 +111,6 @@ class Coverage(avl.Component):
             self.cp_twakeup.set_comment("TWAKEUP (wakeup indication - time in ns since wakeup was raised)")
             self.cp_twakeup.add_bin("ns", range(0, 1000), stats=True)
 
-
-        self.cg.report(full=True)
-
     async def run_phase(self) -> None:
         """
         Run phase for the coverage component.

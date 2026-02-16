@@ -1,5 +1,8 @@
 # Changelog
 
+### Fixed
+ - [#7](https://github.com/projectapheleia/avl-axi-stream/issues/7) Coverage() : report called by mistake in init function
+
 ## [v0.3.2] - 2025-12-24
 
 ### Fixed
