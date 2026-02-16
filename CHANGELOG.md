@@ -1,5 +1,8 @@
 # Changelog
 
+### Added
+ - Simpler write / write_stream API for sequences
+
 ### Fixed
  - [#7](https://github.com/projectapheleia/avl-axi-stream/issues/7) Coverage() : report called by mistake in init function
 
