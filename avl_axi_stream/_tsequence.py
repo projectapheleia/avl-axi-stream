@@ -30,19 +30,101 @@ class TransSequence(avl.Sequence):
         self.n_items = avl.Factory.get_variable(f"{self.get_full_name()}.n_items", 1)
         """Number of items in the sequence (default 1)"""
 
+    async def write(self, is_last: bool = False, randomize: bool = True, **kwargs) -> SequenceItem:
+        """
+        Write a single transaction item
+        
+        Creates, constrains, and sends a single AXI Stream transaction.
+        Can either randomize the item or set specific values via kwargs.
+        
+        :param is_last: If True, marks this item as the last in the sequence (sets tlast=1)
+        :type is_last: bool
+        :param randomize: If True, randomizes the item. If False, uses kwargs to set values.
+        :type randomize: bool
+        :param kwargs: Field values to set when randomize=False (e.g., tdata=0x1234, tkeep=0xF)
+        :return: The sequence item that was sent
+        :rtype: SequenceItem
+        """
+        item = SequenceItem(f"from_{self.name}", self)
+        await self.start_item(item)
+        
+        if randomize:
+            # Mark last item with tlast if supported
+            if is_last and hasattr(item, "tlast"):
+                item.add_constraint("c_tlast", lambda x: x == 1, item.tlast)
+            # Randomize all fields
+            item.randomize()
+        else:
+            # Set fields from kwargs
+            # Mark last item with tlast if supported
+            if is_last and hasattr(item, "tlast"):
+                item.set("tlast", 1)
+            for field_name, value in kwargs.items():
+                if hasattr(item, field_name):
+                    item.set(field_name, value)
+                else:
+                    self.warning(f"Field '{field_name}' does not exist on item, skipping")
+        
+        await self.finish_item(item)
+        
+        return item
+
+    async def write_stream(self, stream: list) -> list[SequenceItem]:
+        """
+        Write a stream of data transactions
+        
+        Accepts a list of data entries and writes them sequentially.
+        The last entry automatically sets tlast=1.
+        
+        :param stream: List of data entries. Each entry can be:
+                       - int: Value for tdata field
+                       - dict: Field names and values (e.g., {'tdata': 0x1234, 'tkeep': 0xF})
+        :type stream: list
+        :return: List of sequence items that were sent
+        :rtype: list[SequenceItem]
+        
+        Example:
+            # Simple data stream
+            await seq.write_stream([0x10, 0x20, 0x30, 0x40])
+            
+            # Stream with explicit field values
+            await seq.write_stream([
+                {'tdata': 0x1234, 'tkeep': 0xF},
+                {'tdata': 0x5678, 'tkeep': 0xF},
+                {'tdata': 0xABCD, 'tkeep': 0x3}
+            ])
+
+            # separate case for a simplified stream (just tdata):
+            await seq.write_stream([0x1234, 0x5678, 0xF, 0xABCD, 0x3])
+
+        """
+        items = []
+        
+        for i, entry in enumerate(stream):
+            is_last = (i == len(stream) - 1)
+            
+            if isinstance(entry, dict):
+                # Entry is a dictionary of field values
+                item = await self.write(is_last=is_last, randomize=False, **entry)
+            else:
+                # Entry is a single value for tdata - simplified version!
+                item = await self.write(is_last=is_last, randomize=False, tdata=entry)
+            
+            items.append(item)
+        
+        return items
+
     async def body(self) -> None:
         """
         Body of the sequence
+        
+        Generates n_items transactions by repeatedly calling write()
         """
-
         self.info(f"Starting transaction sequence {self.get_full_name()} with {self.n_items} items")
-        for _ in range(self.n_items):
-            item = SequenceItem(f"from_{self.name}", self)
-            await self.start_item(item)
-            if _ == self.n_items-1 and hasattr(item, "tlast"):
-                item.add_constraint("c_tlast", lambda x : x == 1, item.tlast)
-            item.randomize()
-            await self.finish_item(item)
+        
+        for i in range(self.n_items):
+            is_last = (i == self.n_items - 1)
+            await self.write(is_last=is_last)
 
 class PacketSequence(TransSequence):
 
