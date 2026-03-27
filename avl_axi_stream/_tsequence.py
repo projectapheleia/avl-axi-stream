@@ -136,7 +136,7 @@ class PacketSequence(TransSequence):
 
         self.info(f"Starting packet sequence {self.get_full_name()} with {self.n_items} items")
 
-        all_bytes = (2**self.i_f.TSTRB_WIDTH)-1
+        all_bytes = (1<<self.i_f.TSTRB_WIDTH)-1
         for _ in range(self.n_items):
             packet_length = self.packet_length()
 

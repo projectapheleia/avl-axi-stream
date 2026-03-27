@@ -23,6 +23,22 @@ parameters = [
     "TKEEP_WIDTH",
 ]
 
+signals = [
+    "aclk",
+    "aresetn",
+    "tvalid",
+    "tready",
+    "tdata",
+    "tstrb",
+    "tkeep",
+    "tlast",
+    "tid",
+    "tdest",
+    "tuser",
+    "twakeup",
+]
+
+
 class Interface:
     def __init__(self, hdl : HierarchyObject) -> None:
         """
@@ -39,10 +55,11 @@ class Interface:
                 setattr(self, p, int(v.value))
 
         # Signals
-        for child in list(hdl):
-            # Signals start with a lowercase letter
-            if not child._name[0].isupper():
-                setattr(self, child._name, child)
+        for s in signals:
+            # Some simulators do not expose signals inside interfaces through list(hdl).
+            # Populate the _sub_handle cache explicitly.
+            child = getattr(hdl, s)
+            setattr(self, child._name, child)
 
         if self.CLASSIFICATION != "AXI-STREAM":
             raise TypeError(f"Expected AXI-STREAM classification, got {self.CLASSIFICATION}")
