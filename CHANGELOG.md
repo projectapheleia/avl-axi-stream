@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.5.0] - 2026-03027
+
+## Fixed
+ - [#8](https://github.com/projectapheleia/avl-axi-stream/issues/8) Examples fail in VCS - Interface signal enumeration not working
+ - CHanged power of 2 to left shift for performance
+
 ## [v0.4.0] - 2026-02-16
 ### Added
  - Simpler write / write_stream API for sequences
